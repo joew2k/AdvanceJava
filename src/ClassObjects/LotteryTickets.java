@@ -3,6 +3,8 @@
  */
 package ClassObjects;
 
+import java.lang.reflect.Array;
+import java.util.Arrays;
 import java.util.Random;
 
 /**
@@ -22,6 +24,7 @@ public class LotteryTickets {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		int[] tickets = generateTicket();
+		Arrays.sort(tickets);
 		printTickets(tickets);
 
 	}
@@ -33,10 +36,48 @@ public class LotteryTickets {
 		Random random = new Random();
 		int[] tickets = new int[LENGTH];
 		for(int i = 0; i < LENGTH; i++) {
-			tickets[i] = random.nextInt(MAX_NUM_TICKS) + 1;
+			int randomValue;
+			do {
+				randomValue = random.nextInt(MAX_NUM_TICKS) + 1;
+			}while(search(tickets, randomValue));
+			tickets[i] = randomValue;
 		}
 		return tickets;
 	}
+	/**
+	 * This method search for values in an array, if the number is 
+	 * found it returns a true otherwise a false. Sequential search
+	 * @param array This is the array to search
+	 * @param numberToSearch this is the value to search for in the array
+	 * @return
+	 */
+	public static boolean search(int [] array, int numberToSearch) {
+		for(int value: array) {
+			if(value == numberToSearch) {
+				return true;
+			}
+		}
+		/**
+		 * The return statement we execute after going 
+		 * through all the element in the loop
+		 */
+		return false;
+	}
+	
+	public static boolean binarySearch(int [] array, int numberToSearch) {
+		Arrays.sort(array);
+		int index = Arrays.binarySearch(array, numberToSearch);
+		if (index >= 0) {
+			return true;
+		}
+		else return false;
+		
+		
+	}
+	/**
+	 * This method prints  generated ticket values
+	 * @param tickets
+	 */
 	public static void printTickets(int[] tickets) {
 		for(int i = 0; i < LENGTH; i++) {
 			System.out.print(tickets[i] + " | ");
